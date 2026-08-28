@@ -130,6 +130,9 @@ export function rotuloRelativo(data: DataISO, referencia: DataISO): string {
 export function limitesDoDia(data: DataISO): { inicio: string; fim: string } {
   return {
     inicio: fromZonedTime(`${data}T00:00:00`, FUSO_HORARIO).toISOString(),
-    fim: fromZonedTime(`${somarDias(data, 1)}T00:00:00`, FUSO_HORARIO).toISOString(),
+    fim: fromZonedTime(
+      `${somarDias(data, 1)}T00:00:00`,
+      FUSO_HORARIO,
+    ).toISOString(),
   };
 }

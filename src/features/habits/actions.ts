@@ -159,10 +159,12 @@ export async function alternarCheckin(
   const supabase = await criarClienteServidor();
 
   if (marcar) {
-    const { error } = await supabase.from("habit_checkins").upsert(
-      { user_id: usuario.id, habit_id: habitoId, date: data },
-      { onConflict: "habit_id,date", ignoreDuplicates: true },
-    );
+    const { error } = await supabase
+      .from("habit_checkins")
+      .upsert(
+        { user_id: usuario.id, habit_id: habitoId, date: data },
+        { onConflict: "habit_id,date", ignoreDuplicates: true },
+      );
 
     if (error) {
       return falhaDoSupabase(error, "registrar o check-in");

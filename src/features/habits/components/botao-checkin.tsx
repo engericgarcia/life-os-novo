@@ -49,7 +49,7 @@ export function BotaoCheckin({
         disabled={pendente}
         style={feito ? { backgroundColor: cor, borderColor: cor } : undefined}
         className={cn(
-          "flex items-center justify-center rounded-full border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60",
+          "focus-visible:ring-ring flex items-center justify-center rounded-full border-2 transition-colors focus-visible:ring-2 focus-visible:outline-none disabled:opacity-60",
           tamanho === "grande" ? "size-10" : "size-8",
           feito ? "text-white" : "border-input hover:border-primary",
         )}

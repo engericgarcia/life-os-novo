@@ -23,7 +23,7 @@ export default async function LayoutApp({
 
   return (
     <div className="min-h-dvh">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-border bg-card/40 p-4 md:flex">
+      <aside className="border-border bg-card/40 fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r p-4 md:flex">
         <div className="px-3 py-2">
           <p className="text-lg font-bold tracking-tight">life-os</p>
         </div>
@@ -32,9 +32,9 @@ export default async function LayoutApp({
           <NavegacaoLateral />
         </div>
 
-        <div className="flex items-center justify-between gap-2 border-t border-border pt-3">
+        <div className="border-border flex items-center justify-between gap-2 border-t pt-3">
           <p
-            className="truncate px-2 text-xs text-muted-foreground"
+            className="text-muted-foreground truncate px-2 text-xs"
             title={usuario.email ?? undefined}
           >
             {usuario.email}
@@ -47,7 +47,7 @@ export default async function LayoutApp({
       </aside>
 
       <div className="md:pl-60">
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur md:hidden">
+        <header className="border-border bg-background/95 sticky top-0 z-30 flex items-center justify-between border-b px-4 py-3 backdrop-blur md:hidden">
           <p className="text-base font-bold tracking-tight">life-os</p>
           <div className="flex items-center">
             <AlternadorTema />
@@ -55,7 +55,7 @@ export default async function LayoutApp({
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-6 md:pb-10">
+        <main className="mx-auto w-full max-w-3xl px-4 pt-6 pb-24 md:pb-10">
           {children}
         </main>
       </div>

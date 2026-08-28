@@ -31,11 +31,7 @@ export function SeletorCor({
   const [selecionada, setSelecionada] = React.useState(valorInicial);
 
   return (
-    <div
-      role="radiogroup"
-      aria-label="Cor"
-      className="flex flex-wrap gap-2"
-    >
+    <div role="radiogroup" aria-label="Cor" className="flex flex-wrap gap-2">
       <input type="hidden" name={name} value={selecionada} />
 
       {CORES.map((cor) => {
@@ -51,12 +47,15 @@ export function SeletorCor({
             onClick={() => setSelecionada(cor)}
             style={{ backgroundColor: cor }}
             className={cn(
-              "flex size-8 items-center justify-center rounded-full transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              "focus-visible:ring-ring focus-visible:ring-offset-background flex size-8 items-center justify-center rounded-full transition-transform focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
               ativa ? "scale-110" : "hover:scale-105",
             )}
           >
             {ativa ? (
-              <Check className="size-4 text-white drop-shadow" strokeWidth={3} />
+              <Check
+                className="size-4 text-white drop-shadow"
+                strokeWidth={3}
+              />
             ) : null}
           </button>
         );

@@ -14,7 +14,7 @@ export function CabecalhoPagina({
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{titulo}</h1>
         {descricao ? (
-          <p className="mt-1 text-sm text-muted-foreground">{descricao}</p>
+          <p className="text-muted-foreground mt-1 text-sm">{descricao}</p>
         ) : null}
       </div>
 

@@ -41,19 +41,19 @@ export default async function PaginaHoje() {
 
       <section className="mb-8">
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
             Tarefas
           </h2>
           <Link
             href="/tarefas"
-            className="text-xs text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground text-xs"
           >
             Ver todas
           </Link>
         </div>
 
         {tarefas.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted-foreground">
+          <p className="border-border text-muted-foreground rounded-xl border border-dashed px-4 py-6 text-center text-sm">
             Nada vencendo hoje. Dia limpo.
           </p>
         ) : (
@@ -72,12 +72,12 @@ export default async function PaginaHoje() {
 
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
             Hábitos de hoje
           </h2>
           <Link
             href="/habitos"
-            className="text-xs text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground text-xs"
           >
             Ver todos
           </Link>

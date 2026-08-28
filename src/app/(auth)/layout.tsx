@@ -15,7 +15,7 @@ export default function LayoutAutenticacao({
         <div className="w-full max-w-sm">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold tracking-tight">life-os</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-sm">
               Tarefas, hábitos e a visão do seu dia.
             </p>
           </div>

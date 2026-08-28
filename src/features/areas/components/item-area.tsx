@@ -16,7 +16,7 @@ import { type LinhaArea } from "@/types/database";
 
 export function ItemArea({ area }: { area: LinhaArea }) {
   return (
-    <li className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3">
+    <li className="border-border bg-card flex items-center gap-3 rounded-xl border px-4 py-3">
       <span
         aria-hidden
         className="size-3.5 shrink-0 rounded-full"

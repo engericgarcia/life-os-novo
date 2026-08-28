@@ -34,7 +34,7 @@ export function ItemHabito({
   const { linha } = habito;
 
   return (
-    <li className="rounded-xl border border-border bg-card p-4">
+    <li className="border-border bg-card rounded-xl border p-4">
       <div className="flex items-start gap-3">
         <BotaoCheckin
           habitoId={linha.id}
@@ -45,9 +45,9 @@ export function ItemHabito({
         />
 
         <div className="min-w-0 flex-1">
-          <p className="font-medium leading-snug">{linha.name}</p>
+          <p className="leading-snug font-medium">{linha.name}</p>
 
-          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+          <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
             <DiasAlvo dias={habito.diasAlvo} />
 
             <span className="inline-flex items-center gap-1">
@@ -107,7 +107,7 @@ export function ItemHabito({
 
       <div className="mt-4">
         <GradeConsistencia dias={habito.grade} cor={linha.color} />
-        <p className="mt-2 text-xs text-muted-foreground">Últimos 90 dias</p>
+        <p className="text-muted-foreground mt-2 text-xs">Últimos 90 dias</p>
       </div>
     </li>
   );

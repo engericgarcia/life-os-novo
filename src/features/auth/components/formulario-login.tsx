@@ -34,7 +34,7 @@ export function FormularioLogin({ proximo }: { proximo?: string }) {
           aria-describedby={erroEmail ? "erro-email" : undefined}
         />
         {erroEmail ? (
-          <p id="erro-email" className="text-sm text-destructive">
+          <p id="erro-email" className="text-destructive text-sm">
             {erroEmail}
           </p>
         ) : null}
@@ -51,7 +51,7 @@ export function FormularioLogin({ proximo }: { proximo?: string }) {
           aria-describedby={erroSenha ? "erro-senha" : undefined}
         />
         {erroSenha ? (
-          <p id="erro-senha" className="text-sm text-destructive">
+          <p id="erro-senha" className="text-destructive text-sm">
             {erroSenha}
           </p>
         ) : null}
@@ -60,7 +60,7 @@ export function FormularioLogin({ proximo }: { proximo?: string }) {
       {estado.erro ? (
         <p
           role="alert"
-          className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+          className="border-destructive/40 bg-destructive/10 text-destructive rounded-md border px-3 py-2 text-sm"
         >
           {estado.erro}
         </p>
@@ -71,11 +71,11 @@ export function FormularioLogin({ proximo }: { proximo?: string }) {
         Entrar
       </Button>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-center text-sm">
         Não tem conta?{" "}
         <Link
           href="/cadastro"
-          className="font-medium text-primary hover:underline"
+          className="text-primary font-medium hover:underline"
         >
           Criar conta
         </Link>

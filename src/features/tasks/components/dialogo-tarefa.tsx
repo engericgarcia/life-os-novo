@@ -79,7 +79,9 @@ export function DialogoTarefa({
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{editando ? "Editar tarefa" : "Nova tarefa"}</DialogTitle>
+          <DialogTitle>
+            {editando ? "Editar tarefa" : "Nova tarefa"}
+          </DialogTitle>
           <DialogDescription>
             {editando
               ? "Alterações na repetição valem a partir da próxima ocorrência."
@@ -102,7 +104,7 @@ export function DialogoTarefa({
               aria-invalid={Boolean(erros?.titulo)}
             />
             {erros?.titulo?.[0] ? (
-              <p className="text-sm text-destructive">{erros.titulo[0]}</p>
+              <p className="text-destructive text-sm">{erros.titulo[0]}</p>
             ) : null}
           </div>
 
@@ -121,10 +123,7 @@ export function DialogoTarefa({
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
               <Label htmlFor="areaId">Área</Label>
-              <Select
-                name="areaId"
-                defaultValue={tarefa?.area_id ?? SEM_AREA}
-              >
+              <Select name="areaId" defaultValue={tarefa?.area_id ?? SEM_AREA}>
                 <SelectTrigger id="areaId">
                   <SelectValue placeholder="Sem área" />
                 </SelectTrigger>
@@ -172,7 +171,7 @@ export function DialogoTarefa({
                 aria-invalid={Boolean(erros?.dataVencimento)}
               />
               {erros?.dataVencimento?.[0] ? (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {erros.dataVencimento[0]}
                 </p>
               ) : null}
@@ -183,21 +182,19 @@ export function DialogoTarefa({
               <Select
                 name="recorrencia"
                 value={repeticao}
-                onValueChange={(valor) =>
-                  setRepeticao(valor as OpcaoRepeticao)
-                }
+                onValueChange={(valor) => setRepeticao(valor as OpcaoRepeticao)}
               >
                 <SelectTrigger id="recorrencia">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {(
-                    Object.keys(ROTULOS_REPETICAO) as OpcaoRepeticao[]
-                  ).map((opcao) => (
-                    <SelectItem key={opcao} value={opcao}>
-                      {ROTULOS_REPETICAO[opcao]}
-                    </SelectItem>
-                  ))}
+                  {(Object.keys(ROTULOS_REPETICAO) as OpcaoRepeticao[]).map(
+                    (opcao) => (
+                      <SelectItem key={opcao} value={opcao}>
+                        {ROTULOS_REPETICAO[opcao]}
+                      </SelectItem>
+                    ),
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -211,7 +208,7 @@ export function DialogoTarefa({
                 valorInicial={tarefa?.recurrence_weekdays ?? []}
               />
               {erros?.diasDaSemana?.[0] ? (
-                <p className="text-sm text-destructive">
+                <p className="text-destructive text-sm">
                   {erros.diasDaSemana[0]}
                 </p>
               ) : null}
@@ -232,17 +229,17 @@ export function DialogoTarefa({
                 className="sm:max-w-32"
                 aria-invalid={Boolean(erros?.diaDoMes)}
               />
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 Em meses mais curtos, cai no último dia.
               </p>
               {erros?.diaDoMes?.[0] ? (
-                <p className="text-sm text-destructive">{erros.diaDoMes[0]}</p>
+                <p className="text-destructive text-sm">{erros.diaDoMes[0]}</p>
               ) : null}
             </div>
           ) : null}
 
           {erroGeral ? (
-            <p role="alert" className="text-sm text-destructive">
+            <p role="alert" className="text-destructive text-sm">
               {erroGeral}
             </p>
           ) : null}

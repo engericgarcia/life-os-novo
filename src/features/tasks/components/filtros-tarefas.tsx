@@ -56,7 +56,7 @@ export function FiltrosTarefas({
       <div
         role="tablist"
         aria-label="Filtrar por status"
-        className="inline-flex rounded-lg border border-border p-1"
+        className="border-border inline-flex rounded-lg border p-1"
       >
         {ABAS.map((aba) => (
           <button
@@ -81,7 +81,9 @@ export function FiltrosTarefas({
 
       <Select
         value={area ?? TODAS}
-        onValueChange={(valor) => navegar("area", valor === TODAS ? null : valor)}
+        onValueChange={(valor) =>
+          navegar("area", valor === TODAS ? null : valor)
+        }
       >
         <SelectTrigger className="sm:w-52" aria-label="Filtrar por área">
           <SelectValue />

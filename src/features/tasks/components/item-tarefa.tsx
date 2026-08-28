@@ -36,7 +36,7 @@ export function ItemTarefa({
     !concluida && item.dataVencimento !== null && item.dataVencimento < hoje;
 
   return (
-    <li className="flex items-start gap-3 rounded-xl border border-border bg-card px-4 py-3">
+    <li className="border-border bg-card flex items-start gap-3 rounded-xl border px-4 py-3">
       <div className="pt-0.5">
         <CaixaConclusao item={item} />
       </div>
@@ -44,7 +44,7 @@ export function ItemTarefa({
       <div className="min-w-0 flex-1">
         <p
           className={cn(
-            "font-medium leading-snug",
+            "leading-snug font-medium",
             concluida && "text-muted-foreground line-through",
           )}
         >
@@ -52,12 +52,12 @@ export function ItemTarefa({
         </p>
 
         {item.descricao ? (
-          <p className="mt-0.5 line-clamp-2 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-0.5 line-clamp-2 text-sm">
             {item.descricao}
           </p>
         ) : null}
 
-        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+        <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
           {item.area ? (
             <span className="inline-flex items-center gap-1.5">
               <span
@@ -70,7 +70,7 @@ export function ItemTarefa({
           ) : null}
 
           {item.dataVencimento ? (
-            <span className={cn(atrasada && "font-medium text-destructive")}>
+            <span className={cn(atrasada && "text-destructive font-medium")}>
               {rotuloRelativo(item.dataVencimento, hoje)}
             </span>
           ) : null}

@@ -3,11 +3,7 @@ import { lancarErroDeLeitura } from "@/lib/errors";
 import { criarClienteServidor } from "@/lib/supabase/server";
 import { type LinhaHabito } from "@/types/database";
 
-import {
-  calcularStreaks,
-  montarGrade,
-  type DiaConsistencia,
-} from "./streaks";
+import { calcularStreaks, montarGrade, type DiaConsistencia } from "./streaks";
 
 /**
  * Janela de histórico carregada para o cálculo das sequências.

@@ -44,7 +44,8 @@ export function DialogoArea({
     }
   }, [estado, editando]);
 
-  const erroNome = estado?.ok === false ? estado.errosPorCampo?.nome?.[0] : undefined;
+  const erroNome =
+    estado?.ok === false ? estado.errosPorCampo?.nome?.[0] : undefined;
   const erroGeral =
     estado?.ok === false && !estado.errosPorCampo ? estado.erro : undefined;
 
@@ -76,7 +77,7 @@ export function DialogoArea({
               aria-invalid={Boolean(erroNome)}
             />
             {erroNome ? (
-              <p className="text-sm text-destructive">{erroNome}</p>
+              <p className="text-destructive text-sm">{erroNome}</p>
             ) : null}
           </div>
 
@@ -86,7 +87,7 @@ export function DialogoArea({
           </div>
 
           {erroGeral ? (
-            <p role="alert" className="text-sm text-destructive">
+            <p role="alert" className="text-destructive text-sm">
               {erroGeral}
             </p>
           ) : null}

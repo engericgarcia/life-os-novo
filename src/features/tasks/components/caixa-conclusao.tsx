@@ -41,13 +41,11 @@ export function CaixaConclusao({ item }: { item: ItemTarefa }) {
         role="checkbox"
         aria-checked={concluida}
         aria-label={
-          concluida
-            ? `Reabrir "${item.titulo}"`
-            : `Concluir "${item.titulo}"`
+          concluida ? `Reabrir "${item.titulo}"` : `Concluir "${item.titulo}"`
         }
         disabled={pendente}
         className={cn(
-          "flex size-6 items-center justify-center rounded-md border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60",
+          "focus-visible:ring-ring flex size-6 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none disabled:opacity-60",
           concluida
             ? "border-primary bg-primary text-primary-foreground"
             : "border-input hover:border-primary",

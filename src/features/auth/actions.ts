@@ -55,6 +55,21 @@ async function obterOrigem(): Promise<string> {
   return `${protocolo}://${host ?? "localhost:3000"}`;
 }
 
+/**
+ * Só aceita caminhos internos como destino pós-login.
+ *
+ * `//evil.com` começa com "/" mas é uma URL protocolo-relativa: aceitá-la
+ * transformaria o parâmetro `proximo` num redirecionamento aberto.
+ */
+function destinoSeguro(caminho: string): string {
+  const interno =
+    caminho.startsWith("/") &&
+    !caminho.startsWith("//") &&
+    !caminho.startsWith("/\\");
+
+  return interno ? caminho : "/hoje";
+}
+
 export async function entrar(
   _estadoAnterior: EstadoAuth,
   formData: FormData,
@@ -83,10 +98,8 @@ export async function entrar(
     return { erro: traduzirErroAuth(error.message) };
   }
 
-  const destino = texto(formData, "proximo");
-
   // redirect() lança internamente: precisa ficar fora de qualquer try/catch.
-  redirect(destino.startsWith("/") ? destino : "/hoje");
+  redirect(destinoSeguro(texto(formData, "proximo")));
 }
 
 export async function cadastrar(

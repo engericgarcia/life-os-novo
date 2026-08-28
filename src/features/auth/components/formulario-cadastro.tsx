@@ -21,7 +21,7 @@ export function FormularioCadastro() {
   if (estado.mensagem) {
     return (
       <div className="flex flex-col gap-4">
-        <p className="rounded-md border border-primary/40 bg-primary/10 px-3 py-3 text-sm">
+        <p className="border-primary/40 bg-primary/10 rounded-md border px-3 py-3 text-sm">
           {estado.mensagem}
         </p>
         <Button asChild variant="outline">
@@ -45,7 +45,7 @@ export function FormularioCadastro() {
           aria-invalid={Boolean(erroEmail)}
         />
         {erroEmail ? (
-          <p className="text-sm text-destructive">{erroEmail}</p>
+          <p className="text-destructive text-sm">{erroEmail}</p>
         ) : null}
       </div>
 
@@ -58,9 +58,9 @@ export function FormularioCadastro() {
           autoComplete="new-password"
           aria-invalid={Boolean(erroSenha)}
         />
-        <p className="text-xs text-muted-foreground">Mínimo de 8 caracteres.</p>
+        <p className="text-muted-foreground text-xs">Mínimo de 8 caracteres.</p>
         {erroSenha ? (
-          <p className="text-sm text-destructive">{erroSenha}</p>
+          <p className="text-destructive text-sm">{erroSenha}</p>
         ) : null}
       </div>
 
@@ -74,14 +74,14 @@ export function FormularioCadastro() {
           aria-invalid={Boolean(erroConfirmacao)}
         />
         {erroConfirmacao ? (
-          <p className="text-sm text-destructive">{erroConfirmacao}</p>
+          <p className="text-destructive text-sm">{erroConfirmacao}</p>
         ) : null}
       </div>
 
       {estado.erro ? (
         <p
           role="alert"
-          className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+          className="border-destructive/40 bg-destructive/10 text-destructive rounded-md border px-3 py-2 text-sm"
         >
           {estado.erro}
         </p>
@@ -92,9 +92,12 @@ export function FormularioCadastro() {
         Criar conta
       </Button>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-center text-sm">
         Já tem conta?{" "}
-        <Link href="/entrar" className="font-medium text-primary hover:underline">
+        <Link
+          href="/entrar"
+          className="text-primary font-medium hover:underline"
+        >
           Entrar
         </Link>
       </p>

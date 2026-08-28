@@ -1,8 +1,6 @@
 import { z } from "zod";
 
-const cor = z
-  .string()
-  .regex(/^#[0-9a-fA-F]{6}$/, "Escolha uma cor da paleta.");
+const cor = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Escolha uma cor da paleta.");
 
 const nome = z
   .string()

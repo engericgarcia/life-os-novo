@@ -8,11 +8,7 @@ import {
 } from "@/types/database";
 
 import { regraDaTarefa } from "./recurrence";
-import {
-  PESO_PRIORIDADE,
-  type AreaResumida,
-  type ItemTarefa,
-} from "./types";
+import { PESO_PRIORIDADE, type AreaResumida, type ItemTarefa } from "./types";
 
 /**
  * As áreas são carregadas à parte e cruzadas em memória, em vez de usar o
@@ -143,9 +139,7 @@ export async function listarItensTarefas({
     // mais recentes.
     consultaOcorrencias =
       status === "concluida"
-        ? consultaOcorrencias
-            .order("due_date", { ascending: false })
-            .limit(100)
+        ? consultaOcorrencias.order("due_date", { ascending: false }).limit(100)
         : consultaOcorrencias.order("due_date", { ascending: true });
 
     const { data: ocorrencias, error: erroOcorrencias } =
@@ -165,7 +159,9 @@ export async function listarItensTarefas({
   }
 
   if (status === "concluida") {
-    return itens.sort((a, b) => (a.concluidaEm ?? "") < (b.concluidaEm ?? "") ? 1 : -1);
+    return itens.sort((a, b) =>
+      (a.concluidaEm ?? "") < (b.concluidaEm ?? "") ? 1 : -1,
+    );
   }
 
   return itens.sort(ordenarPorVencimento);
@@ -264,10 +260,7 @@ export async function contarConcluidasHoje(hoje: DataISO): Promise<number> {
   }
 
   if (ocorrencias.error) {
-    lancarErroDeLeitura(
-      ocorrencias.error,
-      "contar as tarefas concluídas hoje",
-    );
+    lancarErroDeLeitura(ocorrencias.error, "contar as tarefas concluídas hoje");
   }
 
   return (tarefas.count ?? 0) + (ocorrencias.count ?? 0);

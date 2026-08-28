@@ -14,7 +14,7 @@ export function HabitosDoDia({
 }) {
   if (habitos.length === 0) {
     return (
-      <p className="rounded-xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted-foreground">
+      <p className="border-border text-muted-foreground rounded-xl border border-dashed px-4 py-6 text-center text-sm">
         Nenhum hábito para hoje.{" "}
         <Link href="/habitos" className="text-primary hover:underline">
           Criar um hábito
@@ -28,7 +28,7 @@ export function HabitosDoDia({
       {habitos.map(({ linha, feitoHoje, streakAtual }) => (
         <li
           key={linha.id}
-          className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3"
+          className="border-border bg-card flex items-center gap-3 rounded-xl border px-4 py-3"
         >
           <BotaoCheckin
             habitoId={linha.id}
@@ -48,7 +48,7 @@ export function HabitosDoDia({
             >
               {linha.name}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {streakAtual > 0
                 ? `${streakAtual} ${streakAtual === 1 ? "dia seguido" : "dias seguidos"}`
                 : "comece a sequência hoje"}

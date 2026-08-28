@@ -46,11 +46,7 @@ export default async function PaginaHabitos() {
       ) : (
         <ul className="flex flex-col gap-3">
           {habitos.map((habito) => (
-            <ItemHabito
-              key={habito.linha.id}
-              habito={habito}
-              hoje={hojeISO}
-            />
+            <ItemHabito key={habito.linha.id} habito={habito} hoje={hojeISO} />
           ))}
         </ul>
       )}

@@ -55,7 +55,9 @@ export function DialogoHabito({
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{editando ? "Editar hábito" : "Novo hábito"}</DialogTitle>
+          <DialogTitle>
+            {editando ? "Editar hábito" : "Novo hábito"}
+          </DialogTitle>
           <DialogDescription>
             Escolha os dias em que o hábito deve ser cumprido — os outros dias
             não contam contra a sua sequência.
@@ -77,7 +79,7 @@ export function DialogoHabito({
               aria-invalid={Boolean(erros?.nome)}
             />
             {erros?.nome?.[0] ? (
-              <p className="text-sm text-destructive">{erros.nome[0]}</p>
+              <p className="text-destructive text-sm">{erros.nome[0]}</p>
             ) : null}
           </div>
 
@@ -88,7 +90,7 @@ export function DialogoHabito({
               valorInicial={habito?.target_weekdays ?? TODOS_OS_DIAS}
             />
             {erros?.diasAlvo?.[0] ? (
-              <p className="text-sm text-destructive">{erros.diasAlvo[0]}</p>
+              <p className="text-destructive text-sm">{erros.diasAlvo[0]}</p>
             ) : null}
           </div>
 
@@ -101,7 +103,7 @@ export function DialogoHabito({
           </div>
 
           {erroGeral ? (
-            <p role="alert" className="text-sm text-destructive">
+            <p role="alert" className="text-destructive text-sm">
               {erroGeral}
             </p>
           ) : null}

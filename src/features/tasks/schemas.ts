@@ -12,11 +12,7 @@ const descricao = z
   .max(2000, "A descrição deve ter no máximo 2000 caracteres.")
   .optional();
 
-const areaId = z
-  .string()
-  .uuid("Área inválida.")
-  .nullable()
-  .optional();
+const areaId = z.string().uuid("Área inválida.").nullable().optional();
 
 const prioridade = z.enum(["baixa", "media", "alta"], {
   errorMap: () => ({ message: "Escolha uma prioridade." }),
