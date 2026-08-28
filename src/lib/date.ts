@@ -7,7 +7,7 @@ import {
   parseISO,
 } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { formatInTimeZone } from "date-fns-tz";
+import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
 
 /**
  * Fuso de referência do app. Todo "hoje" do sistema é o dia civil em
@@ -119,4 +119,17 @@ export function rotuloRelativo(data: DataISO, referencia: DataISO): string {
   if (diferenca <= 7) return format(paraData(data), "EEEE", { locale: ptBR });
 
   return formatarData(data);
+}
+
+/**
+ * Limites do dia civil em America/Sao_Paulo, em UTC.
+ *
+ * Usado para comparar com colunas `timestamptz` (ex.: `completed_at`), onde
+ * "hoje" precisa virar um intervalo real.
+ */
+export function limitesDoDia(data: DataISO): { inicio: string; fim: string } {
+  return {
+    inicio: fromZonedTime(`${data}T00:00:00`, FUSO_HORARIO).toISOString(),
+    fim: fromZonedTime(`${somarDias(data, 1)}T00:00:00`, FUSO_HORARIO).toISOString(),
+  };
 }
