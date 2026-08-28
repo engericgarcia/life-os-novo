@@ -1,0 +1,12 @@
+# Configuração mínima do Supabase CLI.
+#
+#   supabase link --project-ref <ref-do-projeto>
+#   supabase db push
+#
+# aplica as migrations de supabase/migrations/ no projeto remoto.
+
+project_id = "life-os"
+
+[db]
+port = 54322
+major_version = 15
