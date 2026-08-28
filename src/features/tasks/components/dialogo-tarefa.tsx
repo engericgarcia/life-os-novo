@@ -4,6 +4,7 @@ import * as React from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { SeletorDiasSemana } from "@/components/seletor-dias-semana";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,8 +28,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { atualizarTarefa, criarTarefa } from "@/features/tasks/actions";
 import { SEM_AREA } from "@/features/tasks/constants";
 import { ROTULOS_PRIORIDADE, PRIORIDADES } from "@/features/tasks/types";
-import { NOMES_CURTOS_DIAS } from "@/lib/date";
-import { cn } from "@/lib/utils";
 import { type LinhaArea, type LinhaTarefa } from "@/types/database";
 
 type OpcaoRepeticao = "nenhuma" | "diaria" | "semanal" | "mensal";
@@ -57,9 +56,6 @@ export function DialogoTarefa({
   const [repeticao, setRepeticao] = React.useState<OpcaoRepeticao>(
     tarefa?.recurrence ?? "nenhuma",
   );
-  const [diasDaSemana, setDiasDaSemana] = React.useState<number[]>(
-    tarefa?.recurrence_weekdays ?? [],
-  );
 
   const [estado, enviar, pendente] = React.useActionState(
     editando ? atualizarTarefa : criarTarefa,
@@ -76,14 +72,6 @@ export function DialogoTarefa({
   const erros = estado?.ok === false ? estado.errosPorCampo : undefined;
   const erroGeral =
     estado?.ok === false && !estado.errosPorCampo ? estado.erro : undefined;
-
-  function alternarDia(dia: number) {
-    setDiasDaSemana((atual) =>
-      atual.includes(dia)
-        ? atual.filter((valor) => valor !== dia)
-        : [...atual, dia],
-    );
-  }
 
   return (
     <Dialog open={aberto} onOpenChange={setAberto}>
@@ -218,39 +206,10 @@ export function DialogoTarefa({
           {repeticao === "semanal" ? (
             <div className="flex flex-col gap-2">
               <Label>Dias da semana</Label>
-              <div className="flex flex-wrap gap-2">
-                {NOMES_CURTOS_DIAS.map((nome, dia) => {
-                  const ativo = diasDaSemana.includes(dia);
-
-                  return (
-                    <button
-                      key={nome}
-                      type="button"
-                      role="checkbox"
-                      aria-checked={ativo}
-                      onClick={() => alternarDia(dia)}
-                      className={cn(
-                        "h-10 min-w-11 rounded-md border px-2 text-sm font-medium transition-colors",
-                        ativo
-                          ? "border-primary bg-primary/15 text-primary"
-                          : "border-input text-muted-foreground hover:bg-accent",
-                      )}
-                    >
-                      {nome}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {diasDaSemana.map((dia) => (
-                <input
-                  key={dia}
-                  type="hidden"
-                  name="diasDaSemana"
-                  value={dia}
-                />
-              ))}
-
+              <SeletorDiasSemana
+                name="diasDaSemana"
+                valorInicial={tarefa?.recurrence_weekdays ?? []}
+              />
               {erros?.diasDaSemana?.[0] ? (
                 <p className="text-sm text-destructive">
                   {erros.diasDaSemana[0]}
