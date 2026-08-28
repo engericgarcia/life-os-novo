@@ -1,0 +1,66 @@
+import { redirect } from "next/navigation";
+
+import { AlternadorTema } from "@/components/layout/alternador-tema";
+import {
+  NavegacaoInferior,
+  NavegacaoLateral,
+} from "@/components/layout/navegacao";
+import { BotaoSair } from "@/features/auth/components/botao-sair";
+import { obterUsuario } from "@/lib/supabase/server";
+
+export default async function LayoutApp({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  // O middleware já barra quem não tem sessão; esta checagem é a segunda
+  // camada, para o caso de a rota ser alcançada por outro caminho.
+  const usuario = await obterUsuario();
+
+  if (!usuario) {
+    redirect("/entrar");
+  }
+
+  return (
+    <div className="min-h-dvh">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-border bg-card/40 p-4 md:flex">
+        <div className="px-3 py-2">
+          <p className="text-lg font-bold tracking-tight">life-os</p>
+        </div>
+
+        <div className="mt-4 flex-1">
+          <NavegacaoLateral />
+        </div>
+
+        <div className="flex items-center justify-between gap-2 border-t border-border pt-3">
+          <p
+            className="truncate px-2 text-xs text-muted-foreground"
+            title={usuario.email ?? undefined}
+          >
+            {usuario.email}
+          </p>
+          <div className="flex shrink-0 items-center">
+            <AlternadorTema />
+            <BotaoSair />
+          </div>
+        </div>
+      </aside>
+
+      <div className="md:pl-60">
+        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur md:hidden">
+          <p className="text-base font-bold tracking-tight">life-os</p>
+          <div className="flex items-center">
+            <AlternadorTema />
+            <BotaoSair />
+          </div>
+        </header>
+
+        <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-6 md:pb-10">
+          {children}
+        </main>
+      </div>
+
+      <NavegacaoInferior />
+    </div>
+  );
+}

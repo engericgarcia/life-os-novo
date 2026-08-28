@@ -70,3 +70,6 @@ export function lancarErroDeLeitura(
 
   throw new Error(`Não foi possível ${contexto}.`);
 }
+
+/** Estado usado com `useActionState`: `null` antes do primeiro envio. */
+export type EstadoAcao = ResultadoAcao | null;
