@@ -47,7 +47,10 @@ export default async function LayoutApp({
       </aside>
 
       <div className="md:pl-60">
-        <header className="border-border bg-background/95 sticky top-0 z-30 flex items-center justify-between border-b px-4 py-3 backdrop-blur md:hidden">
+        <header
+          className="border-border bg-background/95 sticky top-0 z-30 flex items-center justify-between border-b px-4 py-3 backdrop-blur md:hidden"
+          style={{ paddingTop: "calc(0.75rem + env(safe-area-inset-top))" }}
+        >
           <p className="text-base font-bold tracking-tight">life-os</p>
           <div className="flex items-center">
             <AlternadorTema />
