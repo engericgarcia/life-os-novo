@@ -6,6 +6,11 @@ Feito para uso diário e para rodar bem no celular. Interface em português,
 tema escuro por padrão, dados isolados por usuário no Postgres com Row Level
 Security.
 
+**➜ [Ver o app rodando](https://life-os-rouge-sigma.vercel.app)**
+
+Instalável como PWA: no celular, adicione à tela de início e ele abre em tela
+cheia, com ícone próprio, como um app nativo.
+
 ---
 
 ## Screenshots
@@ -33,9 +38,20 @@ Security.
   dias (estilo *contribution graph* do GitHub).
 - **Visão "Hoje"** — o que vence hoje ou está atrasado, os hábitos do dia com
   check-in rápido e os contadores do dia.
+- **PWA instalável** — manifesto, ícones (incluindo a versão *maskable* para o
+  recorte do Android), tela cheia no iOS e página offline própria.
 
 Datas usam o fuso **America/Sao_Paulo**: "hoje" é sempre o dia civil em São
 Paulo, independente de onde o servidor estiver rodando.
+
+### Instalando no celular
+
+**iPhone** — abra a [URL](https://life-os-rouge-sigma.vercel.app) no Safari
+(o Chrome no iOS não instala PWA), toque em compartilhar e escolha *Adicionar
+à Tela de Início*.
+
+**Android** — abra no Chrome e aceite o convite de instalação, ou use o menu
+*Instalar app*.
 
 ---
 
@@ -49,6 +65,8 @@ Paulo, independente de onde o servidor estiver rodando.
 | Interface     | Tailwind CSS v4 + shadcn/ui + lucide-react           |
 | Validação     | Zod (mesmos esquemas no formulário e na Server Action) |
 | Datas         | date-fns + date-fns-tz                               |
+| PWA           | Manifesto + service worker escritos à mão            |
+| Hospedagem    | Vercel (app) + Supabase (banco e autenticação)       |
 | Qualidade     | ESLint + Prettier                                    |
 
 Server Components por padrão; Client Components apenas onde há
@@ -127,6 +145,21 @@ Abra <http://localhost:3000>, crie sua conta e comece pelas **Áreas**.
 
 ---
 
+## Deploy
+
+O app está na [Vercel](https://vercel.com). Para publicar a sua própria cópia:
+
+1. Importe o repositório e informe as duas variáveis de ambiente
+   (`NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
+2. Em **Authentication → URL Configuration** no Supabase, aponte o *Site URL*
+   para o domínio de produção e acrescente `<domínio>/auth/confirmar` às
+   *Redirect URLs*.
+
+Depois disso, cada push na `main` publica sozinho. O esquema do banco **não**
+acompanha: mudanças em `supabase/migrations/` precisam de `supabase db push`.
+
+---
+
 ## Scripts
 
 | Comando                | O que faz                                  |
@@ -151,11 +184,13 @@ life-os/
 ├── supabase/
 │   ├── config.toml
 │   └── migrations/           # esquema e RLS, versionados
+├── public/                   # ícones do PWA, sw.js e offline.html
 ├── src/
 │   ├── app/
 │   │   ├── (auth)/           # login e cadastro
 │   │   ├── (app)/            # área autenticada: hoje, tarefas, hábitos, áreas
 │   │   ├── auth/confirmar/   # troca o token do e-mail por sessão
+│   │   ├── manifest.ts       # manifesto do PWA
 │   │   ├── layout.tsx
 │   │   └── globals.css
 │   ├── components/
@@ -199,6 +234,12 @@ Server Components), `actions.ts` (Server Actions) e `components/`.
   técnico vai para o log do servidor.
 - **RLS em todas as tabelas.** Nenhuma consulta filtra por `user_id` na mão
   confiando só na aplicação — o Postgres recusa o que não é do usuário.
+- **O service worker não guarda HTML.** As telas são renderizadas no servidor e
+  contêm dados da sessão; cacheá-las mostraria informação desatualizada. A
+  navegação sempre vai à rede e, sem conexão, cai numa página de aviso
+  autossuficiente. Só os estáticos do Next entram em cache — eles têm hash no
+  nome, então versão nova nunca colide com a antiga. Por isso um deploy novo
+  aparece no celular sem precisar reinstalar nada.
 
 ---
 
