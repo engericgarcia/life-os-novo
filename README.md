@@ -38,6 +38,10 @@ cheia, com ícone próprio, como um app nativo.
   dias (estilo *contribution graph* do GitHub).
 - **Visão "Hoje"** — o que vence hoje ou está atrasado, os hábitos do dia com
   check-in rápido e os contadores do dia.
+- **Visão "Semana"** — os próximos 7 dias em sequência, com as atrasadas
+  destacadas num bloco à parte.
+- **Anotações** — notas soltas com título, conteúdo e área opcional, para o
+  que não é tarefa: ideias, listas, links.
 - **PWA instalável** — manifesto, ícones (incluindo a versão *maskable* para o
   recorte do Android), tela cheia no iOS e página offline própria.
 
@@ -121,7 +125,7 @@ supabase link --project-ref <ref-do-seu-projeto>
 supabase db push
 ```
 
-Isso cria as cinco tabelas, os índices e as policies de RLS.
+Isso cria as seis tabelas, os índices e as policies de RLS.
 
 ### 4. Ajuste a autenticação no Supabase
 
@@ -188,7 +192,8 @@ life-os/
 ├── src/
 │   ├── app/
 │   │   ├── (auth)/           # login e cadastro
-│   │   ├── (app)/            # área autenticada: hoje, tarefas, hábitos, áreas
+│   │   ├── (app)/            # área autenticada: hoje, semana, tarefas,
+│   │   │                     #   hábitos, anotações, áreas
 │   │   ├── auth/confirmar/   # troca o token do e-mail por sessão
 │   │   ├── manifest.ts       # manifesto do PWA
 │   │   ├── layout.tsx
@@ -201,6 +206,7 @@ life-os/
 │   │   ├── areas/
 │   │   ├── tasks/            # inclui recurrence.ts (funções puras)
 │   │   ├── habits/           # inclui streaks.ts (funções puras)
+│   │   ├── notes/
 │   │   └── today/
 │   ├── lib/
 │   │   ├── supabase/         # clientes: navegador, servidor e middleware
