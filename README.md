@@ -55,7 +55,9 @@ Paulo, independente de onde o servidor estiver rodando.
 à Tela de Início*.
 
 **Android** — abra no Chrome e aceite o convite de instalação, ou use o menu
-*Instalar app*.
+*Instalar app*. Existe também um **app nativo** gerado com Capacitor, que abre
+no Android Studio e vira APK — os detalhes, as limitações e o passo a passo
+estão em [`docs/ANDROID.md`](docs/ANDROID.md).
 
 ---
 
@@ -70,6 +72,7 @@ Paulo, independente de onde o servidor estiver rodando.
 | Validação     | Zod (mesmos esquemas no formulário e na Server Action) |
 | Datas         | date-fns + date-fns-tz                               |
 | PWA           | Manifesto + service worker escritos à mão            |
+| Android       | Capacitor (casca nativa sobre o app hospedado)        |
 | Hospedagem    | Vercel (app) + Supabase (banco e autenticação)       |
 | Qualidade     | ESLint + Prettier                                    |
 
@@ -175,6 +178,8 @@ acompanha: mudanças em `supabase/migrations/` precisam de `supabase db push`.
 | `npm run typecheck`    | TypeScript sem emitir arquivos              |
 | `npm run format`       | Prettier em modo escrita                    |
 | `npm run format:check` | Prettier em modo verificação                |
+| `npm run android:open` | Abre o projeto Android no Android Studio    |
+| `npm run android:sync` | Sincroniza a configuração nativa do Android |
 
 ---
 
@@ -182,7 +187,11 @@ acompanha: mudanças em `supabase/migrations/` precisam de `supabase db push`.
 
 ```
 life-os/
+├── android/                  # projeto nativo gerado pelo Capacitor
+├── assets/                   # ícones e splash de origem do app Android
+├── capacitor/www/            # tela de fallback do app sem conexão
 ├── docs/
+│   ├── ANDROID.md            # como rodar e empacotar o app Android
 │   ├── RECORRENCIA.md        # a modelagem da recorrência, em detalhe
 │   └── screenshots/
 ├── supabase/

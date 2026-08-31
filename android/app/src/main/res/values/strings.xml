@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">life-os</string>
+    <string name="title_activity_main">life-os</string>
+    <string name="package_name">app.lifeos</string>
+    <string name="custom_url_scheme">app.lifeos</string>
+</resources>
