@@ -4,8 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   CalendarCheck,
+  CalendarRange,
   FolderOpen,
   ListChecks,
+  NotebookPen,
   Repeat2,
   type LucideIcon,
 } from "lucide-react";
@@ -20,10 +22,19 @@ type ItemNavegacao = {
 
 const ITENS: ItemNavegacao[] = [
   { href: "/hoje", rotulo: "Hoje", Icone: CalendarCheck },
+  { href: "/semana", rotulo: "Semana", Icone: CalendarRange },
   { href: "/tarefas", rotulo: "Tarefas", Icone: ListChecks },
   { href: "/habitos", rotulo: "Hábitos", Icone: Repeat2 },
+  { href: "/anotacoes", rotulo: "Notas", Icone: NotebookPen },
   { href: "/areas", rotulo: "Áreas", Icone: FolderOpen },
 ];
+
+/**
+ * A barra inferior do celular comporta cinco itens com conforto. Áreas fica
+ * de fora porque é configuração — usada ao montar o sistema, não no dia a
+ * dia — e continua acessível pelo cabeçalho.
+ */
+const ITENS_CELULAR = ITENS.filter((item) => item.href !== "/areas");
 
 function estaAtivo(caminho: string, href: string): boolean {
   return caminho === href || caminho.startsWith(`${href}/`);
@@ -69,8 +80,8 @@ export function NavegacaoInferior() {
       className="border-border bg-background/95 fixed inset-x-0 bottom-0 z-40 border-t backdrop-blur md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <ul className="grid grid-cols-4">
-        {ITENS.map(({ href, rotulo, Icone }) => {
+      <ul className="grid grid-cols-5">
+        {ITENS_CELULAR.map(({ href, rotulo, Icone }) => {
           const ativo = estaAtivo(caminho, href);
 
           return (

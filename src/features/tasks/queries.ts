@@ -1,4 +1,4 @@
-import { limitesDoDia, type DataISO } from "@/lib/date";
+import { limitesDoDia, somarDias, type DataISO } from "@/lib/date";
 import { lancarErroDeLeitura } from "@/lib/errors";
 import { criarClienteServidor } from "@/lib/supabase/server";
 import {
@@ -230,6 +230,106 @@ export async function listarItensDeHoje(hoje: DataISO): Promise<ItemTarefa[]> {
   }
 
   return itens.sort(ordenarPorVencimento);
+}
+
+export type DiaDaSemana = {
+  data: DataISO;
+  itens: ItemTarefa[];
+};
+
+/**
+ * Visão da semana: o que vence em cada um dos próximos `dias` dias.
+ *
+ * As atrasadas saem separadas em vez de aparecerem no dia em que venceram —
+ * espalhá-las pelo passado esconderia justamente o que precisa de atenção.
+ */
+export async function listarSemana(
+  hoje: DataISO,
+  dias = 7,
+): Promise<{ atrasadas: ItemTarefa[]; semana: DiaDaSemana[] }> {
+  const supabase = await criarClienteServidor();
+  const areas = await carregarMapaDeAreas();
+  const fim = somarDias(hoje, dias - 1);
+
+  const [tarefasSimples, ocorrencias] = await Promise.all([
+    supabase
+      .from("tasks")
+      .select("*")
+      .is("recurrence", null)
+      .eq("status", "pendente")
+      .not("due_date", "is", null)
+      .lte("due_date", fim),
+    supabase
+      .from("task_occurrences")
+      .select("*")
+      .eq("status", "pendente")
+      .lte("due_date", fim),
+  ]);
+
+  if (tarefasSimples.error) {
+    lancarErroDeLeitura(tarefasSimples.error, "carregar a semana");
+  }
+
+  if (ocorrencias.error) {
+    lancarErroDeLeitura(ocorrencias.error, "carregar as tarefas repetidas");
+  }
+
+  const itens: ItemTarefa[] = (tarefasSimples.data ?? []).map((tarefa) =>
+    itemDeTarefaSimples(tarefa, areas),
+  );
+
+  const linhasOcorrencias = ocorrencias.data ?? [];
+
+  if (linhasOcorrencias.length > 0) {
+    const ids = [...new Set(linhasOcorrencias.map((linha) => linha.task_id))];
+
+    const { data: tarefasRecorrentes, error } = await supabase
+      .from("tasks")
+      .select("*")
+      .in("id", ids);
+
+    if (error) {
+      lancarErroDeLeitura(error, "carregar as tarefas repetidas");
+    }
+
+    const porId = new Map(
+      (tarefasRecorrentes ?? []).map((tarefa) => [tarefa.id, tarefa]),
+    );
+
+    for (const ocorrencia of linhasOcorrencias) {
+      const tarefa = porId.get(ocorrencia.task_id);
+
+      if (tarefa) {
+        itens.push(itemDeOcorrencia(ocorrencia, tarefa, areas));
+      }
+    }
+  }
+
+  const atrasadas: ItemTarefa[] = [];
+  const porData = new Map<DataISO, ItemTarefa[]>();
+
+  for (let i = 0; i < dias; i += 1) {
+    porData.set(somarDias(hoje, i), []);
+  }
+
+  for (const item of itens) {
+    if (!item.dataVencimento) continue;
+
+    if (item.dataVencimento < hoje) {
+      atrasadas.push(item);
+      continue;
+    }
+
+    porData.get(item.dataVencimento)?.push(item);
+  }
+
+  return {
+    atrasadas: atrasadas.sort(ordenarPorVencimento),
+    semana: [...porData.entries()].map(([data, lista]) => ({
+      data,
+      itens: lista.sort(ordenarPorVencimento),
+    })),
+  };
 }
 
 /**

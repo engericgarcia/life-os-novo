@@ -1,10 +1,13 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { FolderOpen } from "lucide-react";
 
 import { AlternadorTema } from "@/components/layout/alternador-tema";
 import {
   NavegacaoInferior,
   NavegacaoLateral,
 } from "@/components/layout/navegacao";
+import { Button } from "@/components/ui/button";
 import { BotaoSair } from "@/features/auth/components/botao-sair";
 import { obterUsuario } from "@/lib/supabase/server";
 
@@ -53,6 +56,13 @@ export default async function LayoutApp({
         >
           <p className="text-base font-bold tracking-tight">life-os</p>
           <div className="flex items-center">
+            {/* Áreas sai da barra inferior por ser configuração; fica aqui
+                para continuar a um toque de distância. */}
+            <Button variant="ghost" size="icon-sm" asChild>
+              <Link href="/areas" aria-label="Áreas" title="Áreas">
+                <FolderOpen className="size-4" />
+              </Link>
+            </Button>
             <AlternadorTema />
             <BotaoSair />
           </div>
