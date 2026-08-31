@@ -7,12 +7,11 @@ import { cn } from "@/lib/utils";
 
 /** Paleta fixa: evita cores ilegíveis e mantém a interface coerente. */
 export const CORES = [
-  "#6366f1",
-  "#8b5cf6",
-  "#ec4899",
-  "#ef4444",
+  "#e11d48",
   "#f97316",
   "#eab308",
+  "#8b5cf6",
+  "#ec4899",
   "#22c55e",
   "#14b8a6",
   "#0ea5e9",

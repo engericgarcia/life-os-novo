@@ -18,7 +18,12 @@ function Contador({
   return (
     <div className="border-border bg-card rounded-xl border p-4">
       <div className="text-muted-foreground flex items-center gap-2 text-xs">
-        <Icone className={cn("size-3.5", destaque && "text-orange-400")} />
+        <Icone
+          className={cn(
+            "size-3.5",
+            destaque && "text-amber-600 dark:text-amber-400",
+          )}
+        />
         {rotulo}
       </div>
       <p className="mt-1 text-2xl font-bold tabular-nums">{valor}</p>

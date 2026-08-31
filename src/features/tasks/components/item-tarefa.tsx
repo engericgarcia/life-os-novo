@@ -78,7 +78,8 @@ export function ItemTarefa({
           {item.prioridade !== "media" ? (
             <span
               className={cn(
-                item.prioridade === "alta" && "font-medium text-orange-400",
+                item.prioridade === "alta" &&
+                  "font-medium text-amber-600 dark:text-amber-400",
               )}
             >
               Prioridade {ROTULOS_PRIORIDADE[item.prioridade].toLowerCase()}
