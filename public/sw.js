@@ -12,7 +12,10 @@
  *   - resto      -> passa direto, sem interferência.
  */
 
-const VERSAO = "life-os-v1";
+// Troque a versão sempre que um arquivo pré-cacheado mudar: é o que faz o
+// activate limpar os caches antigos. Sem isso, a página offline guardada
+// continua sendo a da identidade anterior.
+const VERSAO = "life-os-v2";
 const PAGINA_OFFLINE = "/offline.html";
 
 self.addEventListener("install", (evento) => {
