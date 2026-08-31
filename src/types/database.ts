@@ -163,6 +163,36 @@ export interface Database {
         };
         Relationships: [];
       };
+      notes: {
+        Row: {
+          id: string;
+          user_id: string;
+          area_id: string | null;
+          title: string;
+          content: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          area_id?: string | null;
+          title: string;
+          content?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          area_id?: string | null;
+          title?: string;
+          content?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       habit_checkins: {
         Row: {
           id: string;
@@ -206,3 +236,4 @@ export type LinhaTarefa = Tabelas["tasks"]["Row"];
 export type LinhaOcorrencia = Tabelas["task_occurrences"]["Row"];
 export type LinhaHabito = Tabelas["habits"]["Row"];
 export type LinhaCheckin = Tabelas["habit_checkins"]["Row"];
+export type LinhaNota = Tabelas["notes"]["Row"];
