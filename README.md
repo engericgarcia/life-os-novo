@@ -104,8 +104,8 @@ e retorno de erro explícito.
 ### 1. Clone e instale
 
 ```bash
-git clone https://github.com/<seu-usuario>/life-os.git
-cd life-os
+git clone https://github.com/engericgarcia/life-os-novo.git
+cd life-os-novo
 npm install
 ```
 
