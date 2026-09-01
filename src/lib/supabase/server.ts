@@ -18,8 +18,12 @@ type CookiesParaDefinir = Array<{
  * carrega os cookies de sessão daquela requisição.
  */
 export async function criarClienteServidor() {
-  const env = lerEnv();
+  // `cookies()` vem antes da leitura do env de propósito: durante o
+  // `next build` é ele que marca a rota como dinâmica. Validar o env antes
+  // faria a pré-renderização estourar em quem clona o repositório sem as
+  // variáveis — justamente o que `lerEnv` promete evitar.
   const cookieStore = await cookies();
+  const env = lerEnv();
 
   return createServerClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
