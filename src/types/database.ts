@@ -193,6 +193,63 @@ export interface Database {
         };
         Relationships: [];
       };
+      push_subscriptions: {
+        Row: {
+          id: string;
+          user_id: string;
+          endpoint: string;
+          p256dh: string;
+          auth: string;
+          created_at: string;
+          last_success_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          endpoint: string;
+          p256dh: string;
+          auth: string;
+          created_at?: string;
+          last_success_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          endpoint?: string;
+          p256dh?: string;
+          auth?: string;
+          created_at?: string;
+          last_success_at?: string | null;
+        };
+        Relationships: [];
+      };
+      notification_preferences: {
+        Row: {
+          user_id: string;
+          enabled: boolean;
+          send_hour: number;
+          last_sent_on: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          user_id: string;
+          enabled?: boolean;
+          send_hour?: number;
+          last_sent_on?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          user_id?: string;
+          enabled?: boolean;
+          send_hour?: number;
+          last_sent_on?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       habit_checkins: {
         Row: {
           id: string;
@@ -237,3 +294,6 @@ export type LinhaOcorrencia = Tabelas["task_occurrences"]["Row"];
 export type LinhaHabito = Tabelas["habits"]["Row"];
 export type LinhaCheckin = Tabelas["habit_checkins"]["Row"];
 export type LinhaNota = Tabelas["notes"]["Row"];
+export type LinhaInscricaoPush = Tabelas["push_subscriptions"]["Row"];
+export type LinhaPreferenciasNotificacao =
+  Tabelas["notification_preferences"]["Row"];

@@ -15,7 +15,7 @@
 // Troque a versão sempre que um arquivo pré-cacheado mudar: é o que faz o
 // activate limpar os caches antigos. Sem isso, a página offline guardada
 // continua sendo a da identidade anterior.
-const VERSAO = "life-os-v2";
+const VERSAO = "life-os-v3";
 const PAGINA_OFFLINE = "/offline.html";
 
 self.addEventListener("install", (evento) => {
@@ -81,4 +81,56 @@ self.addEventListener("fetch", (evento) => {
       }),
     );
   }
+});
+
+/**
+ * Notificação recebida do servidor.
+ *
+ * O payload vem como JSON; se vier em texto puro (o que não deveria
+ * acontecer), ainda assim mostramos algo em vez de engolir em silêncio.
+ */
+self.addEventListener("push", (evento) => {
+  let dados = { titulo: "life-os", corpo: "", url: "/hoje" };
+
+  if (evento.data) {
+    try {
+      dados = { ...dados, ...evento.data.json() };
+    } catch {
+      dados.corpo = evento.data.text();
+    }
+  }
+
+  evento.waitUntil(
+    self.registration.showNotification(dados.titulo, {
+      body: dados.corpo,
+      icon: "/icon-192.png",
+      badge: "/icon-192.png",
+      lang: "pt-BR",
+      // A tag faz a notificação nova substituir a anterior em vez de
+      // empilhar um resumo por dia na bandeja.
+      tag: dados.tag || "resumo-diario",
+      data: { url: dados.url },
+    }),
+  );
+});
+
+/** Clicar na notificação leva à tela correspondente, reusando a aba aberta. */
+self.addEventListener("notificationclick", (evento) => {
+  evento.notification.close();
+
+  const destino = (evento.notification.data && evento.notification.data.url) || "/hoje";
+
+  evento.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((janelas) => {
+        for (const janela of janelas) {
+          if (janela.url.includes(destino)) {
+            return janela.focus();
+          }
+        }
+
+        return self.clients.openWindow(destino);
+      }),
+  );
 });

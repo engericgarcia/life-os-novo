@@ -42,6 +42,10 @@ cheia, com ícone próprio, como um app nativo.
   destacadas num bloco à parte.
 - **Anotações** — notas soltas com título, conteúdo e área opcional, para o
   que não é tarefa: ideias, listas, links.
+- **Notificações push** — um resumo diário do que vence hoje e dos hábitos
+  pendentes, no horário que você escolher. Funciona no Android e no iPhone
+  (com o app na tela de início). Detalhes em
+  [`docs/NOTIFICACOES.md`](docs/NOTIFICACOES.md).
 - **PWA instalável** — manifesto, ícones (incluindo a versão *maskable* para o
   recorte do Android), tela cheia no iOS e página offline própria.
 
@@ -72,6 +76,7 @@ estão em [`docs/ANDROID.md`](docs/ANDROID.md).
 | Validação     | Zod (mesmos esquemas no formulário e na Server Action) |
 | Datas         | date-fns + date-fns-tz                               |
 | PWA           | Manifesto + service worker escritos à mão            |
+| Notificações  | Web Push (VAPID) + agendamento diário na Vercel       |
 | Android       | Capacitor (casca nativa sobre o app hospedado)        |
 | Hospedagem    | Vercel (app) + Supabase (banco e autenticação)       |
 | Qualidade     | ESLint + Prettier                                    |
@@ -114,8 +119,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sua-chave-anon
 ```
 
 > A chave `anon` é pública por design — o acesso aos dados é controlado por
-> RLS no banco. A `service_role` **não** é usada neste projeto e nunca deve
-> ser colocada em `.env.local` nem versionada.
+> RLS no banco.
+>
+> A `service_role` ignora o RLS e é usada em **um único ponto**: a rota do
+> resumo diário, que roda sem sessão de usuário. Ela nunca leva prefixo
+> `NEXT_PUBLIC_` e nunca é versionada. O raciocínio completo está em
+> [`docs/NOTIFICACOES.md`](docs/NOTIFICACOES.md). Só é necessária se você for
+> usar notificações.
 
 ### 3. Aplique as migrations
 
@@ -192,6 +202,7 @@ life-os/
 ├── capacitor/www/            # tela de fallback do app sem conexão
 ├── docs/
 │   ├── ANDROID.md            # como rodar e empacotar o app Android
+│   ├── NOTIFICACOES.md       # arquitetura do push e a exceção do RLS
 │   ├── RECORRENCIA.md        # a modelagem da recorrência, em detalhe
 │   └── screenshots/
 ├── supabase/
@@ -216,6 +227,7 @@ life-os/
 │   │   ├── tasks/            # inclui recurrence.ts (funções puras)
 │   │   ├── habits/           # inclui streaks.ts (funções puras)
 │   │   ├── notes/
+│   │   ├── notifications/
 │   │   └── today/
 │   ├── lib/
 │   │   ├── supabase/         # clientes: navegador, servidor e middleware
@@ -249,6 +261,14 @@ Server Components), `actions.ts` (Server Actions) e `components/`.
   técnico vai para o log do servidor.
 - **RLS em todas as tabelas.** Nenhuma consulta filtra por `user_id` na mão
   confiando só na aplicação — o Postgres recusa o que não é do usuário.
+- **Uma única exceção ao RLS, documentada.** O resumo diário roda sem sessão
+  e precisa enxergar as tarefas de todos, então usa a `service_role` — em um
+  arquivo só, no servidor, atrás de um segredo. Todo o resto do sistema
+  acessa o banco pela sessão do usuário.
+- **O envio de notificação é idempotente.** O agendador pode rodar de hora em
+  hora ou uma vez ao dia; `last_sent_on` garante um resumo por pessoa por dia.
+  Isso torna o sistema indiferente aos limites do plano gratuito e a
+  repetições.
 - **O service worker não guarda HTML.** As telas são renderizadas no servidor e
   contêm dados da sessão; cacheá-las mostraria informação desatualizada. A
   navegação sempre vai à rede e, sem conexão, cai numa página de aviso

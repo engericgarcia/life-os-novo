@@ -27,6 +27,10 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Projeto nativo gerado pelo Capacitor e o resultado do build do
+      // Android Studio: código de terceiros, não nosso.
+      "android/**",
+      "capacitor/www/**",
     ],
   },
 ];

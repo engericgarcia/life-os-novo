@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FolderOpen } from "lucide-react";
+import { Settings } from "lucide-react";
 
 import { AlternadorTema } from "@/components/layout/alternador-tema";
 import {
@@ -56,11 +56,11 @@ export default async function LayoutApp({
         >
           <p className="text-base font-bold tracking-tight">life-os</p>
           <div className="flex items-center">
-            {/* Áreas sai da barra inferior por ser configuração; fica aqui
-                para continuar a um toque de distância. */}
+            {/* Ajustes reúne o que é configuração — notificações e áreas —
+                e sai da barra inferior, reservada ao uso diário. */}
             <Button variant="ghost" size="icon-sm" asChild>
-              <Link href="/areas" aria-label="Áreas" title="Áreas">
-                <FolderOpen className="size-4" />
+              <Link href="/ajustes" aria-label="Ajustes" title="Ajustes">
+                <Settings className="size-4" />
               </Link>
             </Button>
             <AlternadorTema />

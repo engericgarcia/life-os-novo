@@ -9,6 +9,7 @@ import {
   ListChecks,
   NotebookPen,
   Repeat2,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 
@@ -27,14 +28,17 @@ const ITENS: ItemNavegacao[] = [
   { href: "/habitos", rotulo: "Hábitos", Icone: Repeat2 },
   { href: "/anotacoes", rotulo: "Notas", Icone: NotebookPen },
   { href: "/areas", rotulo: "Áreas", Icone: FolderOpen },
+  { href: "/ajustes", rotulo: "Ajustes", Icone: Settings },
 ];
 
 /**
- * A barra inferior do celular comporta cinco itens com conforto. Áreas fica
- * de fora porque é configuração — usada ao montar o sistema, não no dia a
- * dia — e continua acessível pelo cabeçalho.
+ * A barra inferior do celular comporta cinco itens com conforto. Áreas e
+ * Ajustes ficam de fora por serem configuração — usadas ao montar o sistema,
+ * não no dia a dia — e continuam acessíveis pelo cabeçalho.
  */
-const ITENS_CELULAR = ITENS.filter((item) => item.href !== "/areas");
+const ITENS_CELULAR = ITENS.filter(
+  (item) => !["/areas", "/ajustes"].includes(item.href),
+);
 
 function estaAtivo(caminho: string, href: string): boolean {
   return caminho === href || caminho.startsWith(`${href}/`);
