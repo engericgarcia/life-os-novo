@@ -2,13 +2,47 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>Sem conexão · life-os</title>
+    <script>
+      // O app guarda o tema escolhido no localStorage (next-themes). Sem
+      // conexão, esta página lê o mesmo valor para não piscar num tema que o
+      // usuário não escolheu. O padrão, como no app, é o escuro.
+      try {
+        if (localStorage.getItem("theme") === "light") {
+          document.documentElement.classList.add("claro");
+        }
+      } catch (_) {
+        // Modo privativo ou storage bloqueado: fica no tema escuro.
+      }
+    </script>
     <style>
       /* Página autossuficiente de propósito: ela é guardada pelo service
-         worker e precisa funcionar sem nenhum outro arquivo. */
-      :root { color-scheme: light; }
-      * { box-sizing: border-box; }
+         worker e precisa funcionar sem nenhum outro arquivo — por isso as
+         cores são repetidas aqui em vez de virem do globals.css. Os valores
+         acompanham os tokens do app; o escuro é o padrão, como no app. */
+      :root {
+        color-scheme: dark;
+        --fundo: oklch(0.16 0.01 30);
+        --texto: oklch(0.98 0.002 40);
+        --texto-suave: oklch(0.715 0.018 35);
+        --marca: oklch(0.68 0.183 31);
+        --sobre-marca: oklch(0.16 0.01 30);
+      }
+      :root.claro {
+        color-scheme: light;
+        --fundo: oklch(1 0 0);
+        --texto: oklch(0.16 0.01 30);
+        --texto-suave: oklch(0.53 0.016 35);
+        --marca: oklch(0.598 0.196 31);
+        --sobre-marca: oklch(1 0 0);
+      }
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
         min-height: 100dvh;
@@ -16,38 +50,69 @@
         align-items: center;
         justify-content: center;
         padding: 2rem;
-        background: #ffffff;
-        color: #1a1110;
-        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--fundo);
+        color: var(--texto);
+        font-family:
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
         text-align: center;
       }
       .marca {
-        width: 56px; height: 56px;
+        width: 56px;
+        height: 56px;
         margin: 0 auto 1.5rem;
         border-radius: 14px;
-        background: #dc402b;
-        display: flex; align-items: center; justify-content: center;
+        background: var(--marca);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      h1 { font-size: 1.25rem; margin: 0 0 .5rem; }
-      p { margin: 0; color: #6b625f; font-size: .9rem; line-height: 1.5; max-width: 22rem; }
+      h1 {
+        font-size: 1.25rem;
+        margin: 0 0 0.5rem;
+      }
+      p {
+        margin: 0;
+        color: var(--texto-suave);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        max-width: 22rem;
+      }
       button {
         margin-top: 1.75rem;
-        padding: .7rem 1.5rem;
-        border: 0; border-radius: .5rem;
-        background: #dc402b; color: #fff;
-        font-size: .9rem; font-weight: 500; font-family: inherit;
+        padding: 0.7rem 1.5rem;
+        border: 0;
+        border-radius: 0.5rem;
+        background: var(--marca);
+        color: var(--sobre-marca);
+        font-size: 0.9rem;
+        font-weight: 500;
+        font-family: inherit;
         cursor: pointer;
       }
-      button:active { opacity: .85; }
+      button:active {
+        opacity: 0.85;
+      }
     </style>
   </head>
   <body>
     <main>
       <div class="marca">
         <svg width="30" height="30" viewBox="0 0 512 512" aria-hidden="true">
-          <circle cx="256" cy="256" r="140" fill="none" stroke="#fff" stroke-width="62"
-                  stroke-linecap="round" stroke-dasharray="660 880"
-                  transform="rotate(-90 256 256)" />
+          <circle
+            cx="256"
+            cy="256"
+            r="140"
+            fill="none"
+            stroke="#fff"
+            stroke-width="62"
+            stroke-linecap="round"
+            stroke-dasharray="660 880"
+            transform="rotate(-90 256 256)"
+          />
         </svg>
       </div>
       <h1>Sem conexão</h1>
