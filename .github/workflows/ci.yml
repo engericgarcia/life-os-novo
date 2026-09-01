@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Um push logo em seguida cancela a execução anterior do mesmo branch.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Lint, tipos, formato, testes e build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run typecheck
+
+      - run: npm run format:check
+
+      - run: npm test
+
+      # O build roda sem as variáveis do Supabase de propósito: elas são
+      # validadas sob demanda, então quem clona o repositório sem elas ainda
+      # consegue compilar. Se isso quebrar, quebrou para todo mundo.
+      - run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
