@@ -1,5 +1,7 @@
 # life-os
 
+[![CI](https://github.com/engericgarcia/life-os-novo/actions/workflows/ci.yml/badge.svg)](https://github.com/engericgarcia/life-os-novo/actions/workflows/ci.yml)
+
 Sistema pessoal de organização: **tarefas, hábitos e a visão do seu dia**.
 
 Feito para uso diário e para rodar bem no celular. Interface em português,
@@ -84,7 +86,7 @@ estão em [`docs/ANDROID.md`](docs/ANDROID.md).
 | Notificações  | Web Push (VAPID) + agendamento diário na Vercel       |
 | Android       | Capacitor (casca nativa sobre o app hospedado)        |
 | Hospedagem    | Vercel (app) + Supabase (banco e autenticação)       |
-| Qualidade     | ESLint + Prettier                                    |
+| Qualidade     | ESLint + Prettier + Vitest (funções puras)           |
 
 Server Components por padrão; Client Components apenas onde há
 interatividade. Toda mutação passa por uma **Server Action** com validação Zod
@@ -191,6 +193,8 @@ acompanha: mudanças em `supabase/migrations/` precisam de `supabase db push`.
 | `npm start`            | Sobe o build de produção                    |
 | `npm run lint`         | ESLint                                      |
 | `npm run typecheck`    | TypeScript sem emitir arquivos              |
+| `npm test`             | Testes uma vez (Vitest)                     |
+| `npm run test:watch`   | Testes em modo observação                   |
 | `npm run format`       | Prettier em modo escrita                    |
 | `npm run format:check` | Prettier em modo verificação                |
 | `npm run android:open` | Abre o projeto Android no Android Studio    |
@@ -198,10 +202,38 @@ acompanha: mudanças em `supabase/migrations/` precisam de `supabase db push`.
 
 ---
 
+## Testes
+
+A suíte cobre o que o app tem de mais delicado e de mais testável: as funções
+**puras**, que recebem data e regra e devolvem data, sem banco e sem relógio
+implícito.
+
+```bash
+npm test
+```
+
+| Módulo                                                       | O que é verificado                                                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| [`lib/date.ts`](src/lib/date.ts)                              | datas flutuantes, rótulos relativos e a conversão do dia civil de São Paulo para um intervalo em UTC      |
+| [`features/tasks/recurrence.ts`](src/features/tasks/recurrence.ts) | as três recorrências, o dia 31 em fevereiro, e as duas garantias: não nascer no passado e não ressuscitar dias perdidos |
+| [`features/habits/streaks.ts`](src/features/habits/streaks.ts) | sequência atual e melhor sequência, o dia de hoje em aberto e os dias fora do alvo                       |
+
+O que depende do banco não é testado com mocks: quem garante essas regras são
+as constraints e o RLS, versionados em
+[`supabase/migrations/`](supabase/migrations/).
+
+Cada push e cada pull request rodam lint, tipos, formatação, testes e build
+pelo [GitHub Actions](.github/workflows/ci.yml). O build roda **sem** as
+variáveis do Supabase de propósito: elas são validadas sob demanda, então
+quem clona o repositório sem elas ainda consegue compilar.
+
+---
+
 ## Estrutura de pastas
 
 ```
 life-os/
+├── .github/workflows/        # CI: lint, tipos, formato, testes e build
 ├── android/                  # projeto nativo gerado pelo Capacitor
 ├── assets/                   # ícones e splash de origem do app Android
 ├── capacitor/www/            # tela de fallback do app sem conexão
@@ -244,7 +276,8 @@ life-os/
 ```
 
 Cada feature guarda o que é seu: `schemas.ts` (Zod), `queries.ts` (leitura em
-Server Components), `actions.ts` (Server Actions) e `components/`.
+Server Components), `actions.ts` (Server Actions) e `components/`. Os testes
+ficam ao lado do que testam, em `*.test.ts`.
 
 ---
 
