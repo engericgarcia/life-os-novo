@@ -14,7 +14,9 @@ export function AlternadorTema() {
   // divergência de hidratação.
   React.useEffect(() => setMontado(true), []);
 
-  const escuro = resolvedTheme === "dark";
+  // Antes de montar, o servidor e o cliente precisam concordar: `montado`
+  // também segura o rótulo, não só o ícone.
+  const escuro = montado && resolvedTheme === "dark";
 
   return (
     <Button
