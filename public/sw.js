@@ -118,7 +118,8 @@ self.addEventListener("push", (evento) => {
 self.addEventListener("notificationclick", (evento) => {
   evento.notification.close();
 
-  const destino = (evento.notification.data && evento.notification.data.url) || "/hoje";
+  const destino =
+    (evento.notification.data && evento.notification.data.url) || "/hoje";
 
   evento.waitUntil(
     self.clients
