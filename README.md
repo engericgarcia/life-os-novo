@@ -15,12 +15,17 @@ cheia, com ícone próprio, como um app nativo.
 
 ## Screenshots
 
-> As imagens ainda não foram capturadas — veja
-> [`docs/screenshots/`](docs/screenshots/) para os arquivos esperados.
-
 | Hoje | Tarefas | Hábitos |
 | ---- | ------- | ------- |
 | ![Visão Hoje](docs/screenshots/hoje.png) | ![Tarefas](docs/screenshots/tarefas.png) | ![Hábitos](docs/screenshots/habitos.png) |
+
+No celular, que é onde o app mais é usado:
+
+| Hoje | Tarefas | Hábitos |
+| ---- | ------- | ------- |
+| ![Visão Hoje no celular](docs/screenshots/hoje-mobile.png) | ![Tarefas no celular](docs/screenshots/tarefas-mobile.png) | ![Hábitos no celular](docs/screenshots/habitos-mobile.png) |
+
+<sub>As telas acima usam dados de demonstração.</sub>
 
 ---
 
